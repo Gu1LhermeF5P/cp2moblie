@@ -1,43 +1,24 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CarrinhoContext = createContext();
+export const JGLAppContext = createContext();
 
-export function CarrinhoProvider({ children }) {
-  const [carrinho, setCarrinho] = useState([]);
+export const JGLAppProvider = ({ children }) => {
+  const [JGLCarrinho, setJGLCarrinho] = useState([]);
 
-  const adicionarProduto = produto => {
-    setCarrinho(prev => {
-      const existente = prev.find(p => p.produto.id === produto.id);
-      if (existente) {
-        return prev.map(p =>
-          p.produto.id === produto.id ? { ...p, quantidade: p.quantidade + 1 } : p
-        );
-      }
-      return [...prev, { produto, quantidade: 1 }];
+  useEffect(() => {
+    AsyncStorage.getItem('JGLCarrinho').then(data => {
+      if (data) setJGLCarrinho(JSON.parse(data));
     });
-  };
+  }, []);
 
-  const removerProduto = id => {
-    setCarrinho(prev => prev.filter(p => p.produto.id !== id));
-  };
-
-  const alterarQuantidade = (id, delta) => {
-    setCarrinho(prev =>
-      prev
-        .map(p =>
-          p.produto.id === id ? { ...p, quantidade: p.quantidade + delta } : p
-        )
-        .filter(p => p.quantidade > 0)
-    );
-  };
+  useEffect(() => {
+    AsyncStorage.setItem('JGLCarrinho', JSON.stringify(JGLCarrinho));
+  }, [JGLCarrinho]);
 
   return (
-    <CarrinhoContext.Provider value={{ carrinho, adicionarProduto, removerProduto, alterarQuantidade }}>
+    <JGLAppContext.Provider value={{ JGLCarrinho, setJGLCarrinho }}>
       {children}
-    </CarrinhoContext.Provider>
+    </JGLAppContext.Provider>
   );
-}
-
-export function useCarrinho() {
-  return useContext(CarrinhoContext);
-}
+};

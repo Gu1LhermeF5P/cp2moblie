@@ -2,42 +2,45 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { JGLCartProvider, JGLCartContext } from './jgl_application/jgl_context/jgl_CartContext';
-import { JGLProductListScreen } from './jgl_presentation/jgl_screens/jgl_ProductListScreen';
-import { JGLProductDetailScreen } from './jgl_presentation/jgl_screens/jgl_ProductDetailScreen';
-import { JGLCartScreen } from './jgl_presentation/jgl_screens/jgl_CartScreen';
+import { JGLAppProvider } from './context/AppProvider';
+import { JGLListaProdutos } from './pages/JGLListaProdutos';
+import { JGLDetalhesProduto } from './pages/JGLDetalhesProduto';
+import { JGLCarrinhoPage } from './pages/JGLCarrinho';
+import { Text } from 'react-native';
 import { useContext } from 'react';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const JGLProductStack = () => (
+const ListaStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="JGLLista" component={JGLProductListScreen} />
-    <Stack.Screen name="JGLDetalhes" component={JGLProductDetailScreen} />
+    <Stack.Screen name="Lista" component={JGLListaProdutos} />
+    <Stack.Screen name="Detalhes" component={JGLDetalhesProduto} />
   </Stack.Navigator>
 );
 
-const JGLTabNavigator = () => {
-  const { jglCart } = useContext(JGLCartContext);
+const TabNavigator = () => {
+  const { JGLCarrinho } = useContext(JGLAppContext);
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Produtos" component={JGLProductStack} />
+      <Tab.Screen name="Produtos" component={ListaStack} />
       <Tab.Screen
         name="Carrinho"
-        component={JGLCartScreen}
-        options={{ tabBarBadge: jglCart.length > 0 ? jglCart.length : undefined }}
+        component={JGLCarrinhoPage}
+        options={{
+          tabBarBadge: JGLCarrinho.length > 0 ? JGLCarrinho.length : undefined
+        }}
       />
     </Tab.Navigator>
   );
 };
 
-export default function JGLApp() {
+export default function App() {
   return (
-    <JGLCartProvider>
+    <JGLAppProvider>
       <NavigationContainer>
-        <JGLTabNavigator />
+        <TabNavigator />
       </NavigationContainer>
-    </JGLCartProvider>
+    </JGLAppProvider>
   );
 }
