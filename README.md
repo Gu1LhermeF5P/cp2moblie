@@ -1,6 +1,15 @@
 
 # 🛍️ Projeto React Native - Loja de Produtos
 
+## 👥 Integrantes
+
+- **Nome:** Guilherme Francisco   
+  **RM:** 554678 
+- **Nome:** Larissa de Freitas
+  **RM:** 555136
+- **Nome:** João Victor Rebello de Santis  
+  **RM:** 555287
+  
 ## 📋 Visão Geral
 Este é um projeto de aplicativo de loja de produtos desenvolvido em React Native. O aplicativo permite que os usuários naveguem por uma lista de produtos, visualizem detalhes dos produtos e adicionem produtos ao carrinho de compras. O carrinho de compras é gerenciado utilizando Context API e a persistência dos dados é feita com AsyncStorage.
 
