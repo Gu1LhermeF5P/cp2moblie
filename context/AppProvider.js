@@ -1,24 +1,24 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const JCLAppContext = createContext();
+export const JGLAppContext = createContext();
 
-export const JCLAppProvider = ({ children }) => {
-  const [JCLCarrinho, setJCLCarrinho] = useState([]);
+export const JGLAppProvider = ({ children }) => {
+  const [JGLCarrinho, setJGLCarrinho] = useState([]);
 
   useEffect(() => {
-    AsyncStorage.getItem('JCLCarrinho').then(data => {
-      if (data) setJCLCarrinho(JSON.parse(data));
+    AsyncStorage.getItem('JGLCarrinho').then(data => {
+      if (data) setJGLCarrinho(JSON.parse(data));
     });
   }, []);
 
   useEffect(() => {
-    AsyncStorage.setItem('JCLCarrinho', JSON.stringify(JCLCarrinho));
-  }, [JCLCarrinho]);
+    AsyncStorage.setItem('JGLCarrinho', JSON.stringify(JGLCarrinho));
+  }, [JGLCarrinho]);
 
   return (
-    <JCLAppContext.Provider value={{ JCLCarrinho, setJCLCarrinho }}>
+    <JGLAppContext.Provider value={{ JGLCarrinho, setJGLCarrinho }}>
       {children}
-    </JCLAppContext.Provider>
+    </JGLAppContext.Provider>
   );
 };

@@ -1,20 +1,19 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, Button } from 'react-native';
+import { useCarrinho } from '../providers/CarrinhoProvider';
 
-const JCLImageMap = {
-  produto1: require('../assets/images/produto1.png'),
-  produto2: require('../assets/images/produto2.png'),
+const JGLProdutoCard = ({ produto }) => {
+  const { adicionarAoCarrinho } = useCarrinho();
+
+  return (
+    <View>
+      <Image source={produto.imagem} style={{ width: 100, height: 100 }} />
+      <Text>{produto.nome}</Text>
+      <Text>{produto.descricao}</Text>
+      <Text>R$ {produto.preco}</Text>
+      <Button title="Adicionar ao carrinho" onPress={() => adicionarAoCarrinho(produto)} />
+    </View>
+  );
 };
 
-export const JCLProdutoCard = ({ produto, onPress }) => (
-  <TouchableOpacity style={styles.card} onPress={() => onPress(produto)}>
-    <Image source={JCLImageMap[produto.imagem]} style={styles.image} />
-    <Text>{produto.titulo}</Text>
-    <Text>{produto.descricao}</Text>
-  </TouchableOpacity>
-);
-
-const styles = StyleSheet.create({
-  card: { padding: 10, borderBottomWidth: 1 },
-  image: { width: 100, height: 100 },
-});
+export default JGLProdutoCard;
