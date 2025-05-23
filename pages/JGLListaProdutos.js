@@ -5,14 +5,14 @@ import { JGLAppContext } from '../context/AppProvider';
 
 const produtos = [
   {
-    id: '1',
+    id: 1,
     nome: 'Fone Bluetooth',
     descricao: 'Fone de ouvido sem fio com alta qualidade sonora.',
     preco: 149.99,
     imagem: require('../assets/produto1.jpg'),
   },
   {
-    id: '2',
+    id: 2,
     nome: 'Smartwatch',
     descricao: 'Relógio inteligente com monitoramento de saúde.',
     preco: 249.99,
@@ -33,10 +33,7 @@ export const JGLListaProdutos = () => {
       <Text style={styles.nome}>{item.nome}</Text>
       <Text style={styles.descricao}>{item.descricao}</Text>
       <Text style={styles.preco}>R$ {item.preco.toFixed(2)}</Text>
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => adicionarAoCarrinho(item)}
-      >
+      <TouchableOpacity style={styles.botao} onPress={() => adicionarAoCarrinho(item)}>
         <Text style={styles.botaoTexto}>Adicionar ao Carrinho</Text>
       </TouchableOpacity>
     </TouchableOpacity>
@@ -47,7 +44,7 @@ export const JGLListaProdutos = () => {
       <FlatList
         data={produtos}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.lista}
       />
     </View>

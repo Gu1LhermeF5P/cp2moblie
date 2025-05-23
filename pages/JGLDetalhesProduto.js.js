@@ -4,24 +4,15 @@ import { JGLAppContext } from '../context/AppProvider';
 
 export const JGLDetalhesProduto = ({ route }) => {
   const { produto } = route.params;
-  const { JGLCarrinho, setJGLCarrinho } = useContext(JGLAppContext);
-
-  const adicionarProduto = () => {
-    const existente = JGLCarrinho.find(p => p.id === produto.id);
-    if (existente) {
-      existente.quantidade += 1;
-      setJGLCarrinho([...JGLCarrinho]);
-    } else {
-      setJGLCarrinho([...JGLCarrinho, { ...produto, quantidade: 1 }]);
-    }
-  };
+  const { adicionarAoCarrinho } = useContext(JGLAppContext);
 
   return (
-    <View style={{ padding: 10 }}>
-      <Image source={{ uri: produto.imagem }} style={{ width: '100%', height: 300 }} />
-      <Text style={{ fontSize: 20 }}>{produto.titulo}</Text>
-      <Text>{produto.descricao}</Text>
-      <Button title="Adicionar ao Carrinho" onPress={adicionarProduto} />
+    <View style={{ padding: 16 }}>
+      <Image source={produto.imagem} style={{ width: '100%', height: 300, resizeMode: 'contain' }} />
+      <Text style={{ fontSize: 22, fontWeight: 'bold', marginVertical: 8 }}>{produto.nome}</Text>
+      <Text style={{ fontSize: 16, color: '#555' }}>{produto.descricao}</Text>
+      <Text style={{ fontSize: 18, fontWeight: '600', marginVertical: 10 }}>R$ {produto.preco.toFixed(2)}</Text>
+      <Button title="Adicionar ao Carrinho" onPress={() => adicionarAoCarrinho(produto)} />
     </View>
   );
 };

@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,10 +6,8 @@ import { JGLAppProvider } from './context/AppProvider.js';
 import { JGLListaProdutos } from './pages/JGLListaProdutos.js';
 import { JGLDetalhesProduto } from './pages/JGLDetalhesProduto.js';
 import { JGLCarrinhoPage } from './pages/JGLCarrinho.js';
-import { Text } from 'react-native';
 import { useContext } from 'react';
 import { JGLAppContext } from './context/AppProvider.js';
-
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
