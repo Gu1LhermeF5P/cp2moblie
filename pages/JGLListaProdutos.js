@@ -1,5 +1,13 @@
-import React, { useContext } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { JGLAppContext } from '../context/AppProvider';
 
@@ -23,6 +31,11 @@ const produtos = [
 export const JGLListaProdutos = () => {
   const navigation = useNavigation();
   const { adicionarAoCarrinho } = useContext(JGLAppContext);
+  const [filtro, setFiltro] = useState('');
+
+  const produtosFiltrados = produtos.filter(produto =>
+    produto.nome.toLowerCase().includes(filtro.toLowerCase())
+  );
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -41,11 +54,20 @@ export const JGLListaProdutos = () => {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Buscar produto..."
+        value={filtro}
+        onChangeText={setFiltro}
+      />
       <FlatList
-        data={produtos}
+        data={produtosFiltrados}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.lista}
+        ListEmptyComponent={
+          <Text style={styles.vazio}>Nenhum produto encontrado.</Text>
+        }
       />
     </View>
   );
@@ -56,6 +78,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F4F0F8',
     padding: 16,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
   lista: {
     paddingBottom: 16,
@@ -102,5 +132,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  vazio: {
+    textAlign: 'center',
+    color: '#777',
+    marginTop: 40,
   },
 });
