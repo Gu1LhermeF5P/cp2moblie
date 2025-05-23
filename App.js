@@ -1,32 +1,43 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { JGLCartProvider, JGLCartContext } from './jgl_application/jgl_context/jgl_CartContext';
+import { JGLProductListScreen } from './jgl_presentation/jgl_screens/jgl_ProductListScreen';
+import { JGLProductDetailScreen } from './jgl_presentation/jgl_screens/jgl_ProductDetailScreen';
+import { JGLCartScreen } from './jgl_presentation/jgl_screens/jgl_CartScreen';
+import { useContext } from 'react';
 
-import ListaProdutosPage from './pages/ListaProdutosPage';
-import CarrinhoPage from './pages/CarrinhoPage';
-import { CarrinhoProvider } from './providers/CarrinhoProvider';
-
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+const JGLProductStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="JGLLista" component={JGLProductListScreen} />
+    <Stack.Screen name="JGLDetalhes" component={JGLProductDetailScreen} />
+  </Stack.Navigator>
+);
+
+const JGLTabNavigator = () => {
+  const { jglCart } = useContext(JGLCartContext);
   return (
-    <CarrinhoProvider>
+    <Tab.Navigator>
+      <Tab.Screen name="Produtos" component={JGLProductStack} />
+      <Tab.Screen
+        name="Carrinho"
+        component={JGLCartScreen}
+        options={{ tabBarBadge: jglCart.length > 0 ? jglCart.length : undefined }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export default function JGLApp() {
+  return (
+    <JGLCartProvider>
       <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ color, size }) => {
-              let iconName = route.name === 'Lista' ? 'list' : 'cart';
-              return <Ionicons name={iconName} size={size} color={color} />;
-            },
-            tabBarActiveTintColor: '#00C247',
-            tabBarInactiveTintColor: 'gray',
-          })}
-        >
-          <Tab.Screen name="Lista" component={ListaProdutosPage} />
-          <Tab.Screen name="Carrinho" component={CarrinhoPage} />
-        </Tab.Navigator>
+        <JGLTabNavigator />
       </NavigationContainer>
-    </CarrinhoProvider>
+    </JGLCartProvider>
   );
 }
