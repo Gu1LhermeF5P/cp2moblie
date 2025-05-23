@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { JGLAppProvider } from './context/AppProvider.js';
 import { JGLListaProdutos } from './pages/JGLListaProdutos.js';
-import { JGLDetalhesProduto } from './pages/JGLDetalhesProduto.js';
-import { JGLCarrinhoPage } from './pages/JGLCarrinho.js';
+import {JGLDetalhesProduto}from './pages/JGLDetalhesProduto.js';;
+import { JGLCarrinhoPage } from './pages/JGLCarrinhoPage.js';
 import { useContext } from 'react';
 import { JGLAppContext } from './context/AppProvider.js';
 
